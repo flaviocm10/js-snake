@@ -21,8 +21,25 @@ function criarCobrinha(){
         context.fillRect(snake[i].x, snake[i].y, box, box);
     }
 }
+// atualizar sempre que precioanr uma tecla
+document.addEventListener('keydown', update);
+
+//receber a tecla e aplicar o movimento correto
+function update(event){
+    if(event.keyCode == 37 && direction != "right") direction = "left";
+    if(event.keyCode == 40 && direction != "down") direction = "up";
+    if(event.keyCode == 39 && direction != "left") direction = "right";
+    if(event.keyCode == 38 && direction != "up") direction = "down";
+}
 
 function iniciarJogo(){
+
+    // loopar no canvas
+    if(snake[0].x > 15 * box && direction == "right") snake[0].x = 0;
+    if(snake[0].x < 0 * box && direction == "left") snake[0].x = 16 * box;
+    if(snake[0].y > 15 * box && direction == "up") snake[0].y = 0;
+    if(snake[0].y < 0 * box && direction == "down") snake[0].y = 16 * box;
+
     criarBG();
     criarCobrinha();
 
