@@ -33,7 +33,7 @@ function drawFood(){
     context.fillRect(food.x,food.y,box,box);
 }
 
-// atualizar sempre que precioanr uma tecla
+// atualizar sempre que precionar uma tecla
 document.addEventListener('keydown', update);
 
 //receber a tecla e aplicar o movimento correto
@@ -45,12 +45,20 @@ function update(event){
 }
 
 function iniciarJogo(){
-
+   
     // loopar no canvas
     if(snake[0].x > 15 * box && direction == "right") snake[0].x = 0;
     if(snake[0].x < 0 * box && direction == "left") snake[0].x = 16 * box;
     if(snake[0].y > 15 * box && direction == "up") snake[0].y = 0;
     if(snake[0].y < 0 * box && direction == "down") snake[0].y = 16 * box;
+
+     // condicao game over
+     for(i=1; i < snake.length; i++){
+         if(snake[0].x == snake[i].x && snake[0].y == snake[i].y){
+             clearInterval(jogo);
+             alert('Game Over');
+         }
+     }
 
     criarBG();
     criarCobrinha();
@@ -64,7 +72,13 @@ function iniciarJogo(){
     if(direction == "up") snakeY += box;
     if(direction == "down") snakeY -= box;
 
-    snake.pop();
+    // aumentar a cobra quando come
+    if(snakeX != food.x || snakeY != food.y){
+        snake.pop();
+    } else{
+        food.x = Math.floor(Math.random() * 15 + 1) * box;
+        food.y = Math.floor(Math.random() * 15 + 1) * box;
+    }
 
     let newHead = {
         x: snakeX,
